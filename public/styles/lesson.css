@@ -1,6 +1,6 @@
-
+/* the display of the whole card lesson*/
 .lesson-card {
-    display: inline-block;       
+    display: block;       
     margin: 1rem;
   }
   

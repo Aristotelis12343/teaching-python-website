@@ -7,7 +7,7 @@
     <title>Lessons</title>
 </head>
 <body>
-    <h3>Module 1</h3>
+    <h3>Module <%= module_id %></h3>
     <h1>Python basics</h1>
     <div>
         <a href="">All tasks</a>
@@ -16,15 +16,19 @@
     </div>
     <hr>
     <div>
+      <% lessons.forEach(lesson => {%>
         <article class="lesson-card">
-            <form action="/select-lesson" method="POST" class="lesson-card__form">
-              <input type="hidden" name="lessonId" value="1">
-              <button type="submit" class="lesson-card__link">
-                <h2 class="lesson-card__title">Lesson 1</h2>
-                <span class="lesson-card__badge" aria-label="Lesson number">1</span>
-              </button>
-            </form>
-          </article>
+          <form action="/select-lesson" method="POST" class="lesson-card__form">
+            <input type="hidden" name="lessonId" value="<%= lesson.lesson_id %>">
+            <button type="submit" class="lesson-card__link">
+              <h2 class="lesson-card__title">Lesson <%= lesson.lesson_id %></h2>
+              <span class="lesson-card__badge" aria-label="Lesson number"><%= lesson.lesson_id %></span>
+              <p><%= lesson.name %></p>
+            </button>
+          </form>
+        </article>
+      <%}); %>
+        
     </div>
 </body>
 </html>
