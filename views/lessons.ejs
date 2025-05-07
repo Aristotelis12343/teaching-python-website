@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/lesson.css">
+    <title>Lessons</title>
+</head>
+<body>
+    <h3>Module 1</h3>
+    <h1>Python basics</h1>
+    <div>
+        <a href="">All tasks</a>
+        <a href="">Incomplete</a>
+        <a href="">On review</a>
+    </div>
+    <hr>
+    <div>
+        <article class="lesson-card">
+            <form action="/select-lesson" method="POST" class="lesson-card__form">
+              <input type="hidden" name="lessonId" value="1">
+              <button type="submit" class="lesson-card__link">
+                <h2 class="lesson-card__title">Lesson 1</h2>
+                <span class="lesson-card__badge" aria-label="Lesson number">1</span>
+              </button>
+            </form>
+          </article>
+    </div>
+</body>
+</html>

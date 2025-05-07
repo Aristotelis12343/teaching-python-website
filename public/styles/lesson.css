@@ -1,0 +1,41 @@
+
+.lesson-card {
+    display: inline-block;       
+    margin: 1rem;
+  }
+  
+  /* make entire card clickable */
+  .lesson-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: box-shadow 0.2s;
+  }
+  .lesson-card__link:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* title */
+  .lesson-card__title {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  
+  /* circular badge */
+  .lesson-card__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    margin-top: 0.75rem;
+    border-radius: 50%;
+    background: rgb(131, 58, 224);
+    color: white;
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
