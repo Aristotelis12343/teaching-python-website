@@ -7,28 +7,56 @@
     <title>Lessons</title>
 </head>
 <body>
-    <h3>Module <%= module_id %></h3>
+  <div>
+    <h3>Module </h3>
     <h1>Python basics</h1>
     <div>
         <a href="">All tasks</a>
         <a href="">Incomplete</a>
         <a href="">On review</a>
     </div>
-    <hr>
+  </div>
+
+  <hr>
+  <div class="grid_container">
+    <div class="module-menu">
+    <% 
+      // keep track of modules output
+      const rendered = []; 
+      lessons.forEach(lesson => {
+        const mid = lesson.module_id;
+        if (!rendered.includes(mid)) {
+          rendered.push(mid);
+          // choose the right label for each module
+          let label;
+          if (mid === 1)      label = "Python basics";
+          else if (mid === 2) label = "Control Structures";
+    %>
+      <form action="/select-module" method="POST">
+        <input type="hidden" name="moduleId" value="<%= mid %>">
+        <input 
+          type="submit" 
+          value="<%= mid%>. <%= label %>" 
+          class="module_menu__button" 
+        >
+      </form>
+    <% 
+    }
+      });
+    %>
+    
+  </div>
     <div>
       <% lessons.forEach(lesson => {%>
         <article class="lesson-card">
-          <form action="/select-lesson" method="POST" class="lesson-card__form">
-            <input type="hidden" name="lessonId" value="<%= lesson.lesson_id %>">
-            <button type="submit" class="lesson-card__link">
-              <h2 class="lesson-card__title">Lesson <%= lesson.lesson_id %></h2>
-              <span class="lesson-card__badge" aria-label="Lesson number"><%= lesson.lesson_id %></span>
-              <p><%= lesson.name %></p>
-            </button>
-          </form>
+          <a href="/select-lesson/<%= lesson.module_id %>/<%= lesson.lesson_id %>" class="lesson-card__link">
+          <h2 class="lesson-card__title">Lesson <%= lesson.lesson_id %></h2>
+          <span class="lesson-card__badge"><%= lesson.lesson_id %></span>
+          <p><%= lesson.name %></p>
+          </a>
         </article>
       <%}); %>
-        
     </div>
+  </div>
 </body>
 </html>

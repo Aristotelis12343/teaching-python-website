@@ -39,3 +39,15 @@
     font-weight: bold;
     font-size: 1.25rem;
   }
+
+  .grid_container{
+    display:grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 0.3fr 1fr;
+  }
+
+  .module-menu{
+    display:flex;
+    flex-direction: column;
+    gap:10%;
+  }
