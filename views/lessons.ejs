@@ -20,21 +20,20 @@
   <hr>
   <div class="grid_container">
     <div class="module-menu">
-    <% 
-      // keep track of modules output
+    <%
       const rendered = []; 
       lessons.forEach(lesson => {
-        const mid = lesson.module_id;
-        if (!rendered.includes(mid)) {
-          rendered.push(mid);
-          // choose the right label for each module
-          let label;
-          if (mid === 1)      label = "Python basics";
-          else if (mid === 2) label = "Control Structures";
-          else if (mid === 3) label = "Functions and modules";
-          else if (mid === 4) label = "Module Turtle. Math for developer"
-          else if (mid === 5) label = "Object-oriented programming"
-          else if (mid === 6) label = "Pygame game development basics"
+      const mid = lesson.module_id;
+      if (!rendered.includes(mid)) {
+        rendered.push(mid);
+        // choose the right label for each module
+        let label;
+        if (mid === 1)      label = "Python basics";
+        else if (mid === 2) label = "Control Structures";
+        else if (mid === 3) label = "Functions and modules";
+        else if (mid === 4) label = "Module Turtle. Math for developer"
+        else if (mid === 5) label = "Object-oriented programming"
+        else if (mid === 6) label = "Pygame game development basics"
     %>
       <form action="/select-module" method="POST">
         <input type="hidden" name="moduleId" value="<%= mid %>">
@@ -51,7 +50,7 @@
     
   </div>
     <div>
-      <% lessons.forEach(lesson => {%>
+      <% moduleLessons.forEach(lesson => {%>
         <article class="lesson-card">
           <a href="/select-lesson/<%= lesson.module_id %>/<%= lesson.lesson_id %>" class="lesson-card__link">
           <h2 class="lesson-card__title">Lesson <%= lesson.lesson_id %></h2>
