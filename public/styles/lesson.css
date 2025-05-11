@@ -2,18 +2,25 @@
 .lesson-card {
     display: block;       
     margin: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: box-shadow 0.2s;
+  }
+
+  .into-lesson-card{
+    display:inline-block;
   }
   
   /* make entire card clickable */
   .lesson-card__link {
-    display: block;
+    display: inline-block;
     text-decoration: none;
     color: inherit;
     text-align: center;
     padding: 1rem;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd;
     border-radius: 8px;
-    transition: box-shadow 0.2s;
+    transition: box-shadow 0.2s; */
   }
   .lesson-card__link:hover {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);

@@ -28,7 +28,7 @@ app.get("/",async(req,res)=>{
     const lessons = result.rows;
     let lessonSpecificModule = await db.query("Select * FROM lessons WHERE module_id=$1 ORDER BY id ASC",[moduleId]);
     lessonSpecificModule = lessonSpecificModule.rows;
-    res.render("lessons.ejs",{lessons:lessons,moduleLessons:lessonSpecificModule});
+    res.render("lessons.ejs",{lessons:lessons,moduleLessons:lessonSpecificModule,moduleId});
 });
 
 app.post("/select-module",async(req,res)=>{
@@ -50,6 +50,12 @@ app.get("/select-lesson/:moduleId/:lessonId", async (req,res)=>{
             console.log("Couldn't sent the file");
         }
     });
+});
+
+app.get("/select-basic-points/:moduleId/:lessonId",async(req,res)=>{
+    let id = req.params.lessonId;
+    let module_id = req.params.moduleId;
+    res.sendFile(__dirname + `/public/basic_points/module${module_id}/lesson${id}.pdf`);
 });
 
 app.listen(port, () =>{

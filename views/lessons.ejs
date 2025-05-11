@@ -8,7 +8,7 @@
 </head>
 <body>
   <div>
-    <h3>Module </h3>
+    <h3>Module <%= moduleId %></h3>
     <h1>Python basics</h1>
     <div>
         <a href="">All tasks</a>
@@ -51,13 +51,22 @@
   </div>
     <div>
       <% moduleLessons.forEach(lesson => {%>
-        <article class="lesson-card">
-          <a href="/select-lesson/<%= lesson.module_id %>/<%= lesson.lesson_id %>" class="lesson-card__link">
-          <h2 class="lesson-card__title">Lesson <%= lesson.lesson_id %></h2>
-          <span class="lesson-card__badge"><%= lesson.lesson_id %></span>
-          <p><%= lesson.name %></p>
-          </a>
-        </article>
+        <section class="lesson-card">
+
+          <article class="into-lesson-card">
+            <a href="/select-lesson/<%= lesson.module_id %>/<%= lesson.lesson_id %>" class="lesson-card__link">
+              <h2 class="lesson-card__title">Lesson <%= lesson.lesson_id %></h2>
+              <span class="lesson-card__badge"><%= lesson.lesson_id %></span>
+              <p><%= lesson.name %></p>
+            </a>
+
+            <a href="/select-basic-points/<%= lesson.module_id %>/<%= lesson.lesson_id %>" class="lesson-card__link">
+              <span class="lesson-card__badge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" height="48px" width="48px" style="color: rgb(255, 255, 255);"><path fill="currentColor" d="M15.973 6.08l-1.586-1.586c-.389-.389-1.157-.707-1.707-.707h-7c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-9c0-.55-.318-1.318-.707-1.707zm-5.293 8.207H6.812v-1h3.868v1zm3.868-2.342H6.812v-1h7.736v1zm0-2.342H6.812v-1h7.736v1z"></path></svg></span>
+              <p>Review<br><%= lesson.name %></p>
+            </a>
+          </article>
+
+        </section>
       <%}); %>
     </div>
   </div>
