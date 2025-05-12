@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/lesson.css">
-    <title>Lessons</title>
+    <title>Learning Python</title>
 </head>
 <body>
-  <div>
-    <h3>Module <%= moduleId %></h3>
-    <h1>Python basics</h1>
-    <div>
-        <a href="">All tasks</a>
-        <a href="">Incomplete</a>
-        <a href="">On review</a>
-    </div>
-  </div>
+ <div class="page-header">
+  <h3>Module <%= moduleId %></h3>
+  <h1><%= locals.label %></h1>
+
+</div>
+
+<hr>
+
 
   <hr>
   <div class="grid_container">
@@ -49,6 +48,7 @@
     %>
     
   </div>
+
     <div>
       <% moduleLessons.forEach(lesson => {%>
         <section class="lesson-card">
