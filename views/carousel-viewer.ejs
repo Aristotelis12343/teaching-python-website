@@ -1,0 +1,46 @@
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/swiper/swiper-bundle.min.css"
+/>
+
+<style>
+  .swiper {
+    width: 80vw;
+    max-width: 800px;
+    margin: 1rem auto;
+    height: auto;
+  }
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+</style>
+
+<div class="swiper">
+  <div class="swiper-wrapper">
+    <% slides.forEach((slide) => { %>
+      <div class="swiper-slide">
+        <img src="<%= slide %>" alt="Slide image" />
+      </div>
+    <% }) %>
+  </div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-pagination"></div>
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+  new Swiper('.swiper', {
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+  });
+</script>

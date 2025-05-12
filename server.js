@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import {dirname} from "path";
 import { fileURLToPath } from "url";
+import fs from "fs/promises";
+
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -53,9 +55,34 @@ app.get("/select-lesson/:moduleId/:lessonId", async (req,res)=>{
 });
 
 app.get("/select-basic-points/:moduleId/:lessonId",async(req,res)=>{
-    let id = req.params.lessonId;
-    let module_id = req.params.moduleId;
-    res.sendFile(__dirname + `/public/basic_points/module${module_id}/lesson${id}.pdf`);
+    let moduleId = req.params.moduleId;
+    let lessonId=req.params.lessonId;
+    
+    const slidesDir = __dirname + `/public/basic_points/module${moduleId}/lesson${lessonId}`;
+
+    let files = await fs.readdir(slidesDir);
+    console.log(files);
+
+    const pngFiles = [];
+    files.forEach((f)=>{
+        if (/\.png$/i.test(f)) {
+            pngFiles.push(f);
+        }
+    });
+
+    // sort by digits in filename:
+    pngFiles.sort((a, b) => {
+        const na = parseInt(a.match(/(\d+)/)?.[1] || "0", 10);
+        const nb = parseInt(b.match(/(\d+)/)?.[1] || "0", 10);
+        return na - nb;
+    });
+
+    const slides = [];
+    for (const f of pngFiles) {
+        slides.push(`/basic_points/module${moduleId}/lesson${lessonId}/${f}`);
+    }
+
+    res.render("carousel-viewer.ejs", { slides });
 });
 
 app.listen(port, () =>{
