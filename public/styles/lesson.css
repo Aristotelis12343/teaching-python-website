@@ -192,9 +192,8 @@
 
 /*adding color and styling to the lessons*/
 :root {
-  /* define a couple of accent colors you can reuse */
-  --accent-primary: #8e44ad; /* purple */
-  --accent-secondary: #3498db; /* blue */
+  --accent-primary: #8e44ad;
+  --accent-secondary: #3498db; 
   --card-bg: #ffffff;
   --card-hover-bg: #f0f4f8;
 }
@@ -273,7 +272,7 @@
 
 /* ─── Page Header “Card” ────────────────────────────────────────────────────── */
 .page-header {
-  margin:    1rem;                           /* same gutter as your cards */
+  margin:    1rem;                         
   background: var(--card-bg);
   border-left: 6px solid var(--accent-primary);
   border-radius: 8px;
@@ -281,7 +280,7 @@
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
-/* Alternate accent on even modules (if you ever flip module order) */
+/* Alternate accent on even modules */
 .page-header:nth-of-type(even) {
   border-left-color: var(--accent-secondary);
 }
