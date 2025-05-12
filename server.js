@@ -24,8 +24,9 @@ db.connect();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 
-let moduleId=1;
+
 app.get("/",async(req,res)=>{
+    const moduleId = parseInt(req.query.moduleId, 10) || 1;
     const result = await db.query("SELECT * FROM lessons ORDER by id ASC");
     const lessons = result.rows;
     let lessonSpecificModule = await db.query("Select * FROM lessons WHERE module_id=$1 ORDER BY id ASC",[moduleId]);
@@ -34,9 +35,9 @@ app.get("/",async(req,res)=>{
 });
 
 app.post("/select-module",async(req,res)=>{
-    moduleId = req.body.moduleId;
+    const moduleId = parseInt(req.body.moduleId, 10) || 1;
     console.log(moduleId);
-    res.redirect("/");
+    res.redirect(`/?moduleId=${moduleId}`);
 });
 
 app.get("/select-lesson/:moduleId/:lessonId", async (req,res)=>{
