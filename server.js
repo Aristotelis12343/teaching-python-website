@@ -11,15 +11,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = process.env.PORT || 3000;
 
-const db = new pg.Client({
-    user:"postgres",
-    host:"localhost",
-    database:"allLessons",
-    password:"b2463028496",
-    port:"5432"
+// Use a Pool so it handles reconnections more gracefully in the cloud
+const { Pool } = pg;
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
 });
 
-db.connect();
+db.connect()
+  .then(() => console.log("Database connected"))
+  .catch(err => console.error("DB connection error", err));
+
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
