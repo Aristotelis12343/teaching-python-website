@@ -8,7 +8,7 @@
 </head>
 <body>
  <div class="page-header">
-  <h3>Module <%= moduleId %></h3>
+  <h3>Module <%= moduleId %><br><%=label%></h3>
   <h1><%= locals.label %></h1>
 
 </div>
@@ -36,6 +36,7 @@
     %>
       <form action="/select-module" method="POST">
         <input type="hidden" name="moduleId" value="<%= mid %>">
+        <input type="hidden" name="label" value="<%=label%>">
         <input 
           type="submit" 
           value="<%= mid%>. <%= label %>" 

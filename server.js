@@ -11,16 +11,20 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Use a Pool so it handles reconnections more gracefully in the cloud
-const { Pool } = pg;
-const db = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+const connectionString =
+  process.env.DATABASE_URL ||                           // on Render i’ll set this
+  "postgres://postgres:b2463028496@localhost:5432/allLessons";  // local DB
+
+const db = new pg.Client({
+  connectionString,
+  ssl: process.env.DATABASE_URL                          // only enable SSL when using DATABASE_URL
+    ? { rejectUnauthorized: false }
+    : false
 });
 
 db.connect()
   .then(() => console.log("Database connected"))
-  .catch(err => console.error("DB connection error", err));
+  .catch((err) => console.error("DB connection error", err));
 
 
 app.use(bodyParser.urlencoded({extended:true}));
@@ -28,18 +32,20 @@ app.use(express.static("public"));
 
 
 app.get("/",async(req,res)=>{
+    const label = req.query.label||"Python basics";
     const moduleId = parseInt(req.query.moduleId, 10) || 1;
     const result = await db.query("SELECT * FROM lessons ORDER by id ASC");
     const lessons = result.rows;
     let lessonSpecificModule = await db.query("Select * FROM lessons WHERE module_id=$1 ORDER BY id ASC",[moduleId]);
     lessonSpecificModule = lessonSpecificModule.rows;
-    res.render("lessons.ejs",{lessons:lessons,moduleLessons:lessonSpecificModule,moduleId});
+    res.render("lessons.ejs",{lessons:lessons,moduleLessons:lessonSpecificModule,moduleId,label});
 });
 
 app.post("/select-module",async(req,res)=>{
     const moduleId = parseInt(req.body.moduleId, 10) || 1;
+    const label = req.body.label;
     console.log(moduleId);
-    res.redirect(`/?moduleId=${moduleId}`);
+    res.redirect(`/?moduleId=${moduleId}&label=${label}`);
 });
 
 app.get("/select-lesson/:moduleId/:lessonId", async (req,res)=>{
