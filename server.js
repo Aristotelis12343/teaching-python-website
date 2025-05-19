@@ -5,33 +5,36 @@ import {dirname} from "path";
 import { fileURLToPath } from "url";
 import fs from "fs/promises";
 
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const connectionString =
-  process.env.DATABASE_URL ||                           // on Render i’ll set this
-  "postgres://postgres:b2463028496@localhost:5432/allLessons";  // local DB
-
-const db = new pg.Client({
-  connectionString,
-  ssl: process.env.DATABASE_URL                          // only enable SSL when using DATABASE_URL
-    ? { rejectUnauthorized: false }
-    : false
+// ─── LESSONS DATABASE ───────────────────────────────────────────────────────────
+const lessonsConn = process.env.DATABASE_URL ||
+                     "postgres://postgres:b2463028496@localhost:5432/allLessons";
+const lessonsDb = new pg.Client({
+  connectionString: lessonsConn,
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
 });
 
-db.connect()
-  .then(() => console.log("Database connected"))
-  .catch((err) => console.error("DB connection error", err));
+// ─── AUTHENTICATION DATABASE ───────────────────────────────────────────────────
+const authConn = process.env.AUTH_DATABASE_URL ||
+                 "postgres://postgres:b2463028496@localhost:5432/usersPassword";
+const authDb = new pg.Client({
+  connectionString: authConn,
+  ssl: process.env.AUTH_DATABASE_URL ? { rejectUnauthorized: false } : false
+});
 
+// connect both
+Promise.all([ lessonsDb.connect(), authDb.connect() ])
+  .then(() => console.log("Both databases connected"))
+  .catch(err => console.error("DB connection error", err));
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 
-
-app.get("/",async(req,res)=>{
+app.get("/lessonPage",async(req,res)=>{
     const label = req.query.label||"Python basics";
     const moduleId = parseInt(req.query.moduleId, 10) || 1;
     const result = await db.query("SELECT * FROM lessons ORDER by id ASC");
@@ -45,7 +48,7 @@ app.post("/select-module",async(req,res)=>{
     const moduleId = parseInt(req.body.moduleId, 10) || 1;
     const label = req.body.label;
     console.log(moduleId);
-    res.redirect(`/?moduleId=${moduleId}&label=${label}`);
+    res.redirect(`/lessonPage?moduleId=${moduleId}&label=${label}`);
 });
 
 app.get("/select-lesson/:moduleId/:lessonId", async (req,res)=>{
@@ -93,6 +96,60 @@ app.get("/select-basic-points/:moduleId/:lessonId",async(req,res)=>{
 
     res.render("carousel-viewer.ejs", { slides });
 });
+
+app.get("/",(req,res)=>{
+    res.render("home.ejs");
+});
+
+app.get("/register",(req,res)=>{
+    res.render("register.ejs");
+});
+
+app.get("/login",(req,res)=>{
+    res.render("login.ejs");
+});
+
+app.post("/register", async (req, res) => {
+  const password = req.body.password;
+  const username = req.body.displayName;
+  try{
+    const checkResult = await authDb.query("SELECT * FROM users WHERE username=$1",[username]);
+    if (checkResult.rows.length>0){
+        res.send("Name already exists. Try logging in.");
+    }else{
+        const result = await authDb.query("INSERT INTO users (username,password) VALUES ($1,$2)",[username,password]);
+        console.log(result);
+        res.render("lessons.ejs");
+    }
+    }catch(err){
+        console.log(err);
+    }
+});
+
+app.post("/login", async (req, res) => {
+  const password = req.body.password;
+  const username = req.body.displayName;
+  try {
+    const result = await authDb.query("SELECT * FROM users WHERE username = $1", [
+      username,
+    ]);
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+      const storedPassword = user.password;
+
+      if (password === storedPassword) {
+        res.render("lessons.ejs");
+      } else {
+        res.send("Incorrect Password");
+      }
+    } else {
+      res.send("User not found");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 
 app.listen(port, () =>{
     console.log(`Server is running on port ${port}`);
