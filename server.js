@@ -37,9 +37,9 @@ app.use(express.static("public"));
 app.get("/lessonPage",async(req,res)=>{
     const label = req.query.label||"Python basics";
     const moduleId = parseInt(req.query.moduleId, 10) || 1;
-    const result = await db.query("SELECT * FROM lessons ORDER by id ASC");
+    const result = await lessonsDb.query("SELECT * FROM lessons ORDER by id ASC");
     const lessons = result.rows;
-    let lessonSpecificModule = await db.query("Select * FROM lessons WHERE module_id=$1 ORDER BY id ASC",[moduleId]);
+    let lessonSpecificModule = await lessonsDb.query("Select * FROM lessons WHERE module_id=$1 ORDER BY id ASC",[moduleId]);
     lessonSpecificModule = lessonSpecificModule.rows;
     res.render("lessons.ejs",{lessons:lessons,moduleLessons:lessonSpecificModule,moduleId,label});
 });
@@ -56,7 +56,7 @@ app.get("/select-lesson/:moduleId/:lessonId", async (req,res)=>{
     let module_id = req.params.moduleId;
     console.log(id);
     console.log(module_id)
-    const result = await db.query("SELECT lesson_file from lessons WHERE module_id=$1 ORDER by id ASC",[module_id]);
+    const result = await lessonsDb.query("SELECT lesson_file from lessons WHERE module_id=$1 ORDER by id ASC",[module_id]);
     const fileName = result.rows;
     console.log(fileName);
     res.sendFile(__dirname + `/public/slides/module ${module_id}/${fileName[id].lesson_file}`,err=>{
