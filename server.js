@@ -112,41 +112,74 @@ app.get("/login",(req,res)=>{
 app.post("/register", async (req, res) => {
   const password = req.body.password;
   const username = req.body.displayName;
-  try{
-    const checkResult = await authDb.query("SELECT * FROM users WHERE username=$1",[username]);
-    if (checkResult.rows.length>0){
-        res.send("Name already exists. Try logging in.");
-    }else{
-        const result = await authDb.query("INSERT INTO users (username,password) VALUES ($1,$2)",[username,password]);
-        console.log(result);
-        res.redirect("/lessonPage");
+  try {
+    const checkResult = await authDb.query(
+      "SELECT * FROM users WHERE username=$1",
+      [username]
+    );
+    if (checkResult.rows.length > 0) {
+      return res.send(`
+        <script>
+          alert("Name already exists. Try logging in.");
+          window.location = "/register";
+        </script>
+      `);
+    } else {
+      await authDb.query(
+        "INSERT INTO users (username,password) VALUES ($1,$2)",
+        [username, password]
+      );
+      return res.redirect("/lessonPage?moduleId=1&label=Welcome");
     }
-    }catch(err){
-        console.log(err);
-    }
+  } catch (err) {
+    console.error(err);
+    return res.send(`
+      <script>
+        alert("Server error. Please try again.");
+        window.location = "/register";
+      </script>
+    `);
+  }
 });
 
 app.post("/login", async (req, res) => {
   const password = req.body.password;
   const username = req.body.displayName;
   try {
-    const result = await authDb.query("SELECT * FROM users WHERE username = $1", [
-      username,
-    ]);
+    const result = await authDb.query(
+      "SELECT * FROM users WHERE username = $1",
+      [username]
+    );
     if (result.rows.length > 0) {
       const user = result.rows[0];
       const storedPassword = user.password;
 
       if (password === storedPassword) {
-        res.redirect("/lessonPage");
+        return res.redirect("/lessonPage?moduleId=1&label=Welcome%20back");
       } else {
-        res.send("Incorrect Password");
+        return res.send(`
+          <script>
+            alert("Incorrect password.");
+            window.location = "/login";
+          </script>
+        `);
       }
     } else {
-      res.send("User not found");
+      return res.send(`
+        <script>
+          alert("User not found.");
+          window.location = "/login";
+        </script>
+      `);
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    return res.send(`
+      <script>
+        alert("Server error. Please try again.");
+        window.location = "/login";
+      </script>
+    `);
   }
 });
 
