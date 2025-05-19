@@ -119,7 +119,7 @@ app.post("/register", async (req, res) => {
     }else{
         const result = await authDb.query("INSERT INTO users (username,password) VALUES ($1,$2)",[username,password]);
         console.log(result);
-        res.render("lessons.ejs");
+        res.redirect("/lessonPage");
     }
     }catch(err){
         console.log(err);
@@ -138,7 +138,7 @@ app.post("/login", async (req, res) => {
       const storedPassword = user.password;
 
       if (password === storedPassword) {
-        res.render("lessons.ejs");
+        res.redirect("/lessonPage");
       } else {
         res.send("Incorrect Password");
       }
