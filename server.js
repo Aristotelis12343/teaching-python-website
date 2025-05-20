@@ -129,7 +129,7 @@ app.post("/register", async (req, res) => {
         "INSERT INTO users (username,password) VALUES ($1,$2)",
         [username, password]
       );
-      return res.render("enter_course.ejs",{displayName:username});
+      return res.render("enter_course_register.ejs",{displayName:username});
     }
   } catch (err) {
     console.error(err);
@@ -156,7 +156,7 @@ app.post("/login", async (req, res) => {
 
       if (password === storedPassword) {
   
-        return res.render("enter_course.ejs",{displayName:username});
+        return res.render("enter_course_login.ejs",{displayName:username});
       } else {
         return res.send(`
           <script>
