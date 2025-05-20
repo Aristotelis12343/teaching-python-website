@@ -1,1 +1,18 @@
-hello
+<%- include('partials/header') %>
+<link rel="stylesheet" href="styles/enter_course.css"/>
+
+<div class="landing-container">
+  <div class="landing-card">
+    <h1>Welcome Back, <%= displayName %>!</h1>
+    <p class="subtitle">Ready to continue your coding journey?</p>
+    <button class="btn-start" id="start-button">Start Learning</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('start-button').addEventListener('click', () => {
+    window.location.href = '/lessonPage?moduleId=1&label=Welcome%20back';
+  });
+</script>
+
+<%- include('partials/footer') %>

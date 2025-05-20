@@ -129,7 +129,7 @@ app.post("/register", async (req, res) => {
         "INSERT INTO users (username,password) VALUES ($1,$2)",
         [username, password]
       );
-      return res.redirect("/lessonPage?moduleId=1&label=Welcome");
+      return res.render("enter_course.ejs",{displayName:username});
     }
   } catch (err) {
     console.error(err);
@@ -155,7 +155,8 @@ app.post("/login", async (req, res) => {
       const storedPassword = user.password;
 
       if (password === storedPassword) {
-        return res.redirect("/lessonPage?moduleId=1&label=Welcome%20back");
+  
+        return res.render("enter_course.ejs",{displayName:username});
       } else {
         return res.send(`
           <script>
