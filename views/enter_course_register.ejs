@@ -11,7 +11,8 @@
 
 <script>
   document.getElementById('start-button').addEventListener('click', () => {
-    window.location.href = '/lessonPage?moduleId=1&label=Welcome';
+    const name = encodeURIComponent('<%= displayName %>');
+    window.location.href = `/lessonPage?moduleId=1&label=Welcome&displayName=${name}`;
   });
 </script>
 

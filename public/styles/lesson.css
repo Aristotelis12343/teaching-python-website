@@ -1,330 +1,225 @@
-/* the display of the whole card lesson*/
-.lesson-card {
-    display: block;       
-    margin: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    transition: box-shadow 0.2s;
-  }
+/*────────── Variables ──────────*/
+:root {
+  --accent-primary:   #8e44ad;
+  --accent-secondary: #3498db;
+  --bg-light:         #f9fafb;
+  --card-bg:          #fff;
+  --card-hover-bg:    #f0f4f8;
+  --text-main:        #222;
+  --text-muted:       #555;
+  --font-mono:        'Roboto Mono', monospace;
+}
 
-  .into-lesson-card{
-    display:inline-block;
-  }
-  
-  /* make entire card clickable */
-  .lesson-card__link {
-    display: inline-block;
-    text-decoration: none;
-    color: inherit;
-    text-align: center;
-    padding: 1rem;
-    /* border: 1px solid #ddd;
-    border-radius: 8px;
-    transition: box-shadow 0.2s; */
-  }
-  .lesson-card__link:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  
-  /* title */
-  .lesson-card__title {
-    margin: 0;
-    font-size: 1.25rem;
-  }
-  
-  /* circular badge */
-  .lesson-card__badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    margin-top: 0.75rem;
-    border-radius: 50%;
-    background: rgb(131, 58, 224);
-    color: white;
-    font-weight: bold;
-    font-size: 1.25rem;
-  }
-
-  .grid_container{
-    display:grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 0.3fr 1fr;
-  }
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Right-side layout tweaks: give the lessons area a soft background and gutter
-   ───────────────────────────────────────────────────────────────────────────── */
+/*────────── Layout ──────────*/
 .grid_container {
-  display: grid;                   /* you already have two columns */
-  grid-template-columns: 0.3fr 1fr; /* sidebar / main */
-  gap: 1.5rem;                     /* gutter between sidebar & content */
+  display: grid;
+  grid-template-columns: 0.3fr 1fr;
+  gap: 1.5rem;
   padding: 1rem;
-  background-color: #f9fafb;       /* very light gray background */
+  background: var(--bg-light);
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Card container: clean white cards with lift-on-hover
-   ───────────────────────────────────────────────────────────────────────────── */
+/*────────── Sidebar & Modules ──────────*/
+.module-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  height: 100vh;
+  width: 320px;
+  background: #1f2937;
+  border-radius: 8px 0 0 8px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.module_menu__button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: #334155;
+  color: #f1f5f9;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.4;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  transition: background .2s, transform .1s;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.module_menu__button:hover {
+  background: #475569;
+  transform: translateX(4px);
+}
+
+.module_menu__button:focus,
+.module_menu__button.active {
+  background: #64748b;
+  color: #fff;
+}
+
+/*────────── Lesson Cards ──────────*/
 .lesson-card {
-  background-color: #ffffff;                     /* white card */
-  border: none;                                  /* remove old border */
+  background: var(--card-bg);
+  border-left: 6px solid var(--accent-primary);
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   margin-bottom: 1.5rem;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  overflow: hidden;                              /* clip child effects */
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  overflow: hidden;
+  transition: background .25s, transform .25s, box-shadow .25s;
 }
-
+.lesson-card:nth-child(even) {
+  border-left-color: var(--accent-secondary);
+}
 .lesson-card:hover {
+  background: var(--card-hover-bg);
   transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Inside each card: use CSS Grid to position the title, badge, body, icon
-   ───────────────────────────────────────────────────────────────────────────── */
 .lesson-card__link {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1.5rem;
   padding: 1.25rem;
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
 }
 
-/* Title spans full width above everything */
+/* Title & Badge */
 .lesson-card__title {
   grid-column: 1 / -1;
-  margin: 0 0 0.75rem;
-  font-size: 1.5rem;
-  color: #222;
+  margin: 0 0 .75rem;
+  padding: .5rem .75rem;
+  background: var(--accent-primary);
+  color: #fff;
+  font: 600 1.5rem var(--font-mono);
+  border-radius: 4px;
+  display: inline-block;
+}
+.lesson-card:nth-child(even) .lesson-card__title {
+  background: var(--accent-secondary);
 }
 
-/* Badge stays in the first column */
 .lesson-card__badge {
   grid-column: 1 / 2;
   width: 3rem;
   height: 3rem;
-  font-size: 1.25rem;
-  background: rgb(131, 58, 224); /* your purple */
+  background: var(--accent-primary);
+  color: #fff;
+  font: bold 1.25rem var(--font-mono);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.lesson-card:nth-child(even) .lesson-card__badge {
+  background: var(--accent-secondary);
 }
 
-/* Lesson description text sits in column 2 */
+/* Description & Review */
 .lesson-card__link p {
   grid-column: 2 / 3;
   margin: 0;
-  font-size: 1rem;
-  color: #555;
+  color: var(--text-muted);
+  font: italic 1rem var(--font-mono);
   line-height: 1.4;
 }
 
-/* (If you render a “Review” icon/text in the third column, it will slot here.) */
 .lesson-card__link > .review-icon,
 .lesson-card__link > .review-text {
   grid-column: 3 / 4;
   text-align: center;
 }
 
-/*MODULE MENU HERE*/
-
-  .module-menu{
-    display:flex;
-    flex-direction: column;
-    gap:1%;
-  }
-
-  /* Sidebar container: fill viewport height, sticky, scrollable */
-.module-menu {
-  position: sticky;
-  top: 0;
-  height: 100vh;              /* full screen height */
-  width: 280px;               /* adjust as needed for your longest labels */
-  background-color: #2c3e50;
-  padding: 1rem;
-  box-sizing: border-box;     /* include padding in width/height */
-  overflow-y: auto;           /* scroll if there are too many buttons */
-  border-radius: 8px 0 0 8px; /* rounded on the right side only */
-  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
-}
-
-/* Remove extra form margin so buttons stack neatly */
-.module-menu form {
-  margin: 0 0 0.75rem;
-}
-
-/* Buttons: full width, wrap text, multi-line labels */
-.module_menu__button {
-  display: block;
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.3;
-  color: #ecf0f1;
-  background-color: #34495e;
-  border: none;
-  border-radius: 4px;
-  text-align: left;
-  white-space: normal;         /* allow wrapping */
-  overflow-wrap: break-word;   /* break long words if needed */
-  cursor: pointer;
-  transition: 
-    background-color 0.2s ease,
-    transform        0.1s ease;
-}
-
-/* Hover “slide” effect */
-.module_menu__button:hover {
-  background-color: #3e556e;
-  transform: translateX(4px);
-}
-
-/* Active/focused state */
-.module_menu__button:focus,
-.module_menu__button.active {
-  background-color: #1abc9c;
-  color: #fff;
-  outline: none;
-}
-
-/*adding color and styling to the lessons*/
-:root {
-  --accent-primary: #8e44ad;
-  --accent-secondary: #3498db; 
-  --card-bg: #ffffff;
-  --card-hover-bg: #f0f4f8;
-}
-
-/* ─── Add a colored stripe on the left of each card ─── */
-.lesson-card {
-  border-left: 6px solid var(--accent-primary);
-  background-color: var(--card-bg);
-}
-
-/* Alternate with secondary accent for even cards */
-.lesson-card:nth-child(even) {
-  border-left-color: var(--accent-secondary);
-}
-
-/* ─── Subtle hover background ─── */
-.lesson-card:hover {
-  background-color: var(--card-hover-bg);
-}
-
-/* ─── Make the title bar stand out ─── */
-.lesson-card__title {
-  padding: 0.5rem 0.75rem;
-  background: var(--accent-primary);
-  color: #fff;
-  border-radius: 4px;
-  display: inline-block;
-}
-
-/* Even cards get the secondary accent */
-.lesson-card:nth-child(even) .lesson-card__title {
-  background: var(--accent-secondary);
-}
-
-/* ─── Style the description text a bit more softly ─── */
-.lesson-card__link p {
-  color: #666;
-  font-style: italic;
-}
-
-/* ─── Review icon/text styling ─── */
-.lesson-card__link > .review-icon {
+.review-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: .5rem;
   background: var(--accent-primary);
   color: #fff;
   border-radius: 50%;
-  padding: 0.5rem;
-  font-size: 1.25rem;
-  width: 2.5rem;
-  height: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
-  transition: background 0.2s;
+  transition: background .2s;
 }
-
-.lesson-card:nth-child(even) .lesson-card__link > .review-icon {
+.lesson-card:nth-child(even) .review-icon {
   background: var(--accent-secondary);
 }
 
-.lesson-card__link > .review-icon:hover {
-  background: darken(var(--accent-primary), 10%);
-}
-
-
-.lesson-card__link > .review-text {
+.review-text {
+  font: 600 1rem var(--font-mono);
   color: var(--accent-primary);
-  font-weight: 600;
 }
-
-.lesson-card:nth-child(even) .lesson-card__link > .review-text {
+.lesson-card:nth-child(even) .review-text {
   color: var(--accent-secondary);
 }
 
-/*for the top part of the website*/
-
-/* ─── Page Header “Card” ────────────────────────────────────────────────────── */
+/*────────── Page Header ──────────*/
 .page-header {
-  margin:    1rem;                         
-  background: var(--card-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+  padding: 1rem 2rem;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(8px);
   border-left: 6px solid var(--accent-primary);
-  border-radius: 8px;
-  padding:   1rem 1.25rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  border-radius: .75rem;
+  animation: slideInDown .6s ease-out;
 }
-
-/* Alternate accent on even modules */
 .page-header:nth-of-type(even) {
   border-left-color: var(--accent-secondary);
 }
-
-/* Module label (small heading) */
-.page-header h3{
-  margin:        0;
-  color:         var(--accent-primary);
-  font-size:     0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  opacity:       0.8;
-}
-
-/* Main title */
 .page-header h1 {
-  margin:      0.25rem 0 0.75rem;
-  font-size:   1.75rem;
+  margin: 0;
+  font: bold 1.8rem var(--font-mono);
   color: var(--accent-primary);
   text-transform: uppercase;
-  line-height: 1.2;
+}
+.page-header .module-label {
+  margin: 0;
+  font: 1rem var(--font-mono);
+  color: var(--text-muted);
 }
 
-/* Filter links */
-.lesson-filters {
-  display:  flex;
-  gap:      1rem;
+/*────────── User Greet ──────────*/
+.user-greet {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem .75rem;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(6px);
+  border-radius: 9999px;
+  font: 600 1.5rem var(--font-mono);
+  color: var(--accent-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  opacity: 0;
+  animation: slideInRight .6s ease .4s forwards;
 }
-.lesson-filters a {
-  color:           var(--accent-primary);
-  text-decoration: none;
-  font-weight:     500;
-  transition:      color 0.2s, border-bottom 0.2s;
-  padding-bottom:  2px;
-  border-bottom:   2px solid transparent;
-}
-.lesson-filters a:hover {
-  color:           var(--accent-secondary);
-  border-bottom:   2px solid var(--accent-secondary);
+.user-greet i {
+  font-size: 1.3rem;
+  color: #ffdd57;
+  animation: floatIcon 4s ease-in-out infinite;
 }
 
-/* Thin separator line – stay light & subtle */
-.page-header + hr {
-  border: none;
-  border-top: 1px solid #e0e0e0;
-  margin: 0 1rem 1.5rem;
+/*────────── Animations ──────────*/
+@keyframes slideInDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to   { transform: translateY(0);      opacity: 1; }
+}
+@keyframes slideInRight {
+  from { transform: translateX(20px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+@keyframes floatIcon {
+  50% { transform: translateY(-5px); }
 }

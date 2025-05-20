@@ -7,11 +7,16 @@
     <title>Learning Python</title>
 </head>
 <body>
- <div class="page-header">
+<div class="page-header">
   <h1>Module <%= moduleId %><br><%=label%></h1>
-  <!-- <h1><%= locals.label %></h1> -->
-
+  
+  <div class="user-greet">
+    <i class="fas fa-user-circle"></i>
+    <span><%= name %></span>
+  </div>
 </div>
+
+
 
 <hr>
 
@@ -34,15 +39,9 @@
         else if (mid === 5) label = "Object-oriented programming"
         else if (mid === 6) label = "Pygame game development basics"
     %>
-      <form action="/select-module" method="POST">
-        <input type="hidden" name="moduleId" value="<%= mid %>">
-        <input type="hidden" name="label" value="<%=label%>">
-        <input 
-          type="submit" 
-          value="<%= mid%>. <%= label %>" 
-          class="module_menu__button" 
-        >
-      </form>
+      <a
+      href="/lessonPage?moduleId=<%= mid %>&label=<%= encodeURIComponent(label) %>&displayName=<%= encodeURIComponent(name) %>"
+      class="module_menu__button"><%= mid %>. <%= label %></a>
     <% 
     }
       });

@@ -35,21 +35,22 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 
 app.get("/lessonPage",async(req,res)=>{
+    const name = req.query.displayName;
     const label = req.query.label||"Python basics";
     const moduleId = parseInt(req.query.moduleId, 10) || 1;
     const result = await lessonsDb.query("SELECT * FROM lessons ORDER by id ASC");
     const lessons = result.rows;
     let lessonSpecificModule = await lessonsDb.query("Select * FROM lessons WHERE module_id=$1 ORDER BY id ASC",[moduleId]);
     lessonSpecificModule = lessonSpecificModule.rows;
-    res.render("lessons.ejs",{lessons:lessons,moduleLessons:lessonSpecificModule,moduleId,label});
+    res.render("lessons.ejs",{lessons:lessons,moduleLessons:lessonSpecificModule,moduleId,label,name});
 });
 
-app.post("/select-module",async(req,res)=>{
-    const moduleId = parseInt(req.body.moduleId, 10) || 1;
-    const label = req.body.label;
-    console.log(moduleId);
-    res.redirect(`/lessonPage?moduleId=${moduleId}&label=${label}`);
-});
+// app.post("/select-module",async(req,res)=>{
+//     const moduleId = parseInt(req.body.moduleId, 10) || 1;
+//     const label = req.body.label;
+//     console.log(moduleId);
+//     res.redirect(`/lessonPage?moduleId=${moduleId}&label=${label}`);
+// });
 
 app.get("/select-lesson/:moduleId/:lessonId", async (req,res)=>{
     let id = req.params.lessonId-1;
