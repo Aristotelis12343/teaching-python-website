@@ -4,12 +4,28 @@
 />
 
 <style>
-  .swiper {
-    width: 80vw;
-    max-width: 800px;
-    margin: 1rem auto;
-    height: auto;
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    position: relative;
+}
+
+  body {
+    display: flex;
+    align-items: center;    
+    justify-content: center;
   }
+
+  .swiper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;       
+    max-width: 800px;
+  }
+
   .swiper-slide img {
     display: block;
     width: 100%;
@@ -17,6 +33,7 @@
     object-fit: contain;
   }
 </style>
+
 
 <div class="swiper">
   <div class="swiper-wrapper">
