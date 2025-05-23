@@ -10,12 +10,18 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = process.env.PORT || 3000;
 
+// ─── SSL CONFIG ────────────────────────────────────────────────────────────────
+const useSsl = Boolean(process.env.DATABASE_URL || process.env.AUTH_DATABASE_URL);
+const sslOptions = useSsl
+  ? { rejectUnauthorized: false }
+  : false;
+
 // ─── LESSONS DATABASE ───────────────────────────────────────────────────────────
 const lessonsConn = process.env.DATABASE_URL ||
                      "postgres://postgres:b2463028496@localhost:5432/allLessons";
 const lessonsDb = new pg.Client({
   connectionString: lessonsConn,
-  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
+  ssl: sslOptions
 });
 
 // ─── AUTHENTICATION DATABASE ───────────────────────────────────────────────────
@@ -23,8 +29,9 @@ const authConn = process.env.AUTH_DATABASE_URL ||
                  "postgres://postgres:b2463028496@localhost:5432/usersPassword";
 const authDb = new pg.Client({
   connectionString: authConn,
-  ssl: process.env.AUTH_DATABASE_URL ? { rejectUnauthorized: false } : false
+  ssl: sslOptions
 });
+
 
 // connect both
 Promise.all([ lessonsDb.connect(), authDb.connect() ])
@@ -42,15 +49,11 @@ app.get("/lessonPage",async(req,res)=>{
     const lessons = result.rows;
     let lessonSpecificModule = await lessonsDb.query("Select * FROM lessons WHERE module_id=$1 ORDER BY id ASC",[moduleId]);
     lessonSpecificModule = lessonSpecificModule.rows;
-    res.render("lessons.ejs",{lessons:lessons,moduleLessons:lessonSpecificModule,moduleId,label,name});
-});
 
-// app.post("/select-module",async(req,res)=>{
-//     const moduleId = parseInt(req.body.moduleId, 10) || 1;
-//     const label = req.body.label;
-//     console.log(moduleId);
-//     res.redirect(`/lessonPage?moduleId=${moduleId}&label=${label}`);
-// });
+    const result1 = await lessonsDb.query("SELECT * FROM exercises ORDER by id ASC");
+    const exercises = result1.rows;
+    res.render("lessons.ejs",{lessons:lessons,moduleLessons:lessonSpecificModule,moduleId,label,name,exercises});
+});
 
 app.get("/select-lesson/:moduleId/:lessonId", async (req,res)=>{
     let id = req.params.lessonId-1;
@@ -96,6 +99,16 @@ app.get("/select-basic-points/:moduleId/:lessonId",async(req,res)=>{
     }
 
     res.render("carousel-viewer.ejs", { slides });
+});
+
+app.get("/get-exercise/:moduleId/:lessonId/:exerciseId",async (req,res)=>{
+  const moduleId = req.params.moduleId;
+  const lessonId = req.params.lessonId;
+  const exerciseId = req.params.exerciseId;
+  const result = await lessonsDb.query("Select * FROM exercises WHERE lesson_id=$1 and module_id=$2 and id=$3 ORDER by id ASC",[lessonId,moduleId,exerciseId]);
+  const exercise = result.rows;
+  console.log(exercise);
+  res.render("exercise.ejs",{exercise:exercise[0]});
 });
 
 app.get("/",(req,res)=>{

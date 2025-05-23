@@ -20,11 +20,7 @@
   </div>
 </div>
 
-
-
-
 <hr>
-
 
   <hr>
   <div class="grid_container">
@@ -54,11 +50,13 @@
     
   </div>
 
-    <div>
-      <% moduleLessons.forEach(lesson => {%>
-        <section class="lesson-card">
+  <div>
+    <% moduleLessons.forEach(lesson => { %>
+      <section class="lesson-card">
+        <article class="into-lesson-card" style="display: flex; justify-content: space-between; align-items: flex-start;">
 
-          <article class="into-lesson-card">
+          <!-- left side: theory + review-->
+          <div class="lesson-links-left" style="display: flex; flex-direction: column; gap: 1rem;">
             <a href="/select-lesson/<%= lesson.module_id %>/<%= lesson.lesson_id %>" class="lesson-card__link">
               <h2 class="lesson-card__title">Lesson <%= lesson.lesson_id %></h2>
               <span class="lesson-card__badge"><%= lesson.lesson_id %></span>
@@ -66,14 +64,29 @@
             </a>
 
             <a href="/select-basic-points/<%= lesson.module_id %>/<%= lesson.lesson_id %>" class="lesson-card__link">
-              <span class="lesson-card__badge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" height="48px" width="48px" style="color: rgb(255, 255, 255);"><path fill="currentColor" d="M15.973 6.08l-1.586-1.586c-.389-.389-1.157-.707-1.707-.707h-7c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-9c0-.55-.318-1.318-.707-1.707zm-5.293 8.207H6.812v-1h3.868v1zm3.868-2.342H6.812v-1h7.736v1zm0-2.342H6.812v-1h7.736v1z"></path></svg></span>
+              <span class="lesson-card__badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" height="48px" width="48px">
+                  <path fill="currentColor" d="M15.973 6.08l-1.586-1.586c-.389-.389-1.157-.707-1.707-.707h-7c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-9c0-.55-.318-1.318-.707-1.707zm-5.293 8.207H6.812v-1h3.868v1zm3.868-2.342H6.812v-1h7.736v1zm0-2.342H6.812v-1h7.736v1z"/>
+                </svg>
+              </span>
               <p>Review<br><%= lesson.name %></p>
             </a>
-          </article>
+          </div>
 
-        </section>
-      <%}); %>
-    </div>
+          <!-- right side: exercises (side by side) -->
+          <div class="lesson-links-right" style="display:flex;flex-direction:column;gap:1rem;">
+            <% exercises.filter(ex => ex.lesson_id === lesson.lesson_id && ex.module_id===lesson.module_id).forEach(exercise => { %>
+              <a href="/get-exercise/<%= lesson.module_id %>/<%= lesson.lesson_id %>/<%= exercise.id %>"class="lesson-card__link">
+                <span class="lesson-card__badge"><%= exercise.id %></span>
+                <p><%= exercise.title || 'Exercise' %></p>
+              </a>
+            <% }) %>
+          </div>
+        </article>
+
+      </section>
+    <% }); %>
   </div>
+</div>
 </body>
 </html>

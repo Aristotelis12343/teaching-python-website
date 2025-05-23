@@ -1,0 +1,143 @@
+/* layout */
+.exercise-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+/* left panel */
+.question-panel {
+  flex: 1;
+  background: white;
+  padding: 2rem;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+.question-panel h2 {
+  margin-top: 0;
+}
+.question-panel .note {
+  color: #666;
+  font-size: 0.9rem;
+}
+.question-panel .question {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+
+/* right panel */
+.options-panel {
+  flex: 2;
+  background: #6A0DAD; /* purple */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+.options-list {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+/* option card */
+.option-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #7ecdf0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.option-card:hover {
+  background: #f0fcff;
+  border-color: #4fbde0;
+}
+.option-card input {
+  display: none;
+}
+.option-card .checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #7ecdf0;
+  border-radius: 4px;
+  margin-right: 1rem;
+  position: relative;
+  flex-shrink: 0;
+}
+.option-card input:checked + .checkbox::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 5px;
+  height: 10px;
+  border: solid #7ecdf0;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.option-text {
+  flex: 1;
+}
+
+/* footer actions */
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+.btn-reset,
+.btn-submit {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-reset {
+  background: #FFD400;
+  color: #333;
+}
+.btn-submit {
+  background: #FFD400;
+  color: #333;
+}
+.btn-reset:hover,
+.btn-submit:hover {
+  opacity: 0.85;
+}
+
+/* feedback */
+.feedback {
+  margin-top: 1rem;
+}
+.feedback .correct {
+  color: #0A0;
+  font-size: 1.2rem;
+}
+.feedback .wrong {
+  color: #A00;
+  font-size: 1.2rem;
+}
+.feedback .solution {
+  color: #fff;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.question {
+  white-space: pre-wrap;
+}
+.option-text {
+  /* this makes every real newline render as a line-break */
+  white-space: pre-wrap;
+}
