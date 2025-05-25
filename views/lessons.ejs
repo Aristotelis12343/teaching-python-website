@@ -12,17 +12,24 @@
 </head>
 <body>
 <div class="page-header">
-  <h1><%=label%></h1>
+  <h1><%= label %></h1>
   <div class="user-greet">
     <i class="fas fa-crown crown-icon"></i>
     <i class="fas fa-user-circle"></i>
-    <span><%= name %></span>
+    <span class="user-name"><%= name %></span>
+
+    <div class="user-actions">
+      <a href="/show-edit-page/?name=<%= name %>">Change Name</a>
+      <a href="/show-password-page/?name=<%=name%>">Change Password</a>
+      <a style="color:red" href="/show-delete-page/?name=<%=name%>">Delete Account</a>
+    </div>
   </div>
 </div>
 
+
 <hr>
 
-  <hr>
+  
   <div class="grid_container">
     <div class="module-menu">
     <%

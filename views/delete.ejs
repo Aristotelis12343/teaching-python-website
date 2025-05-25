@@ -1,0 +1,15 @@
+
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/styles/login.css"/>
+
+<div class="auth-card">
+  <i class="fas fa-sign-in-alt fa-4x"></i>
+  <h1>Welcome Back</h1>
+  <form action="/delete-account" method="POST" class="login-form">
+    
+    
+    <button type="submit" class="btn-login" name="username" value="<%=name%>"><span style="color:red">DELETE</span> ACCOUNT</button>
+  </form>
+</div>
+
+<%- include('partials/footer') %>
