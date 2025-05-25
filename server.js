@@ -111,6 +111,44 @@ app.get("/get-exercise/:moduleId/:lessonId/:exerciseId",async (req,res)=>{
   res.render("exercise.ejs",{exercise:exercise[0]});
 });
 
+app.get("/show-edit-page",(req,res)=>{
+  const PreviousName = req.query.name;
+  res.render("edit.ejs",{PreviousName});
+});
+
+app.post("/edit-name",async(req,res)=>{
+  const newName = req.body.displayName;
+  const PreviousName = req.body.PreviousName;
+  await authDb.query("UPDATE users SET username=$1 WHERE username=$2",[newName,PreviousName]);
+  res.redirect(`/lessonPage/?displayName=${newName}`);
+
+});
+
+app.get("/show-password-page",(req,res)=>{
+  const name = req.query.name;
+  res.render("password.ejs",{name});
+});
+
+app.post("/edit-password",async(req,res)=>{
+  const name = req.body.CurrentName;
+  const password = req.body.displayPassword;
+  console.log(name);
+  await authDb.query("UPDATE users SET password=$1 WHERE username=$2",[password,name]);
+  res.redirect("/login");
+
+});
+
+app.get("/show-delete-page",(req,res)=>{
+  const name = req.query.name;
+  res.render("delete.ejs",{name});
+});
+
+app.post("/delete-account",async(req,res)=>{
+  const name = req.body.username;
+  await authDb.query("DELETE FROM users WHERE username=$1",[name]);
+  res.redirect("/");
+});
+
 app.get("/",(req,res)=>{
     res.render("home.ejs");
 });
