@@ -82,12 +82,19 @@
 
           <!-- right side: exercises (side by side) -->
           <div class="lesson-links-right" style="display:flex;flex-direction:column;gap:1rem;">
-            <% exercises.filter(ex => ex.lesson_id === lesson.lesson_id && ex.module_id===lesson.module_id).forEach(exercise => { %>
-              <a href="/get-exercise/<%= lesson.module_id %>/<%= lesson.lesson_id %>/<%= exercise.id %>"class="lesson-card__link">
-                <span class="lesson-card__badge"><%= exercise.id %></span>
-                <p><%= exercise.title || 'Exercise' %></p>
-              </a>
+            <% if (lesson.lesson_id === 1 && lesson.module_id === 5) { %>
+              <a href="/virtual-studio/?name=<%=name%>"class="lesson-card__link">
+                  <span class="lesson-card__badge">V</span>
+                  <p>DOWNLOAD VIRTUAL STUDIO CODE</p>
+                </a>
+            <%}else{%>
+              <% exercises.filter(ex => ex.lesson_id === lesson.lesson_id && ex.module_id===lesson.module_id).forEach(exercise => { %>
+                <a href="/get-exercise/<%= lesson.module_id %>/<%= lesson.lesson_id %>/<%= exercise.id %>"class="lesson-card__link">
+                  <span class="lesson-card__badge"><%= exercise.id %></span>
+                  <p><%= exercise.title || 'Exercise' %></p>
+                </a>
             <% }) %>
+            <%}%>
           </div>
         </article>
 

@@ -138,6 +138,11 @@ app.post("/edit-password",async(req,res)=>{
 
 });
 
+app.get("/virtual-studio",(req,res)=>{
+  const name = req.query.name;
+  res.render("studio.ejs",{name});
+});
+
 app.get("/show-delete-page",(req,res)=>{
   const name = req.query.name;
   res.render("delete.ejs",{name});

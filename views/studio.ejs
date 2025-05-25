@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Setup: Visual Studio Code</title>
+  <link rel="stylesheet" href="/styles/studio.css">
+</head>
+<body>
+  <div class="studio-container">
+    <header>
+      <h1>Getting Started with Visual Studio Code</h1>
+      <p>We’ll need VS Code for future lessons—let’s get you set up!</p>
+    </header>
+
+    <section class="steps">
+      <div class="step">
+        <h2>1. Download VS Code</h2>
+        <p>
+          Go to the official download page and choose your OS:
+        </p>
+        <a href="https://code.visualstudio.com/download" target="_blank" class="btn">
+          Download VS Code
+        </a>
+      </div>
+
+      <div class="step">
+        <h2>2. Install VS Code</h2>
+        <ol>
+          <li>Run the installer you just downloaded.</li>
+          <li>Accept the license agreement.</li>
+          <li>Select “Add to PATH” (recommended) and click “Install”.</li>
+          <li>Finish the installer and launch Visual Studio Code.</li>
+        </ol>
+      </div>
+
+      <div class="step">
+        <h2>3. Essential Extensions</h2>
+        <p>In VS Code, click the Extensions icon (or press <code>Ctrl+Shift+X</code>) and install:</p>
+        <ul>
+          <li><strong>Python</strong> (by Microsoft) – language support, linting, debugging</li>
+          <li><strong>Pylance</strong> (by Microsoft) – faster IntelliSense</li>
+          <li><strong>Code Runner</strong> – quickly run code snippets</li>
+          <li><strong>Prettier</strong> – automatic code formatting</li>
+        </ul>
+      </div>
+
+      <div class="step">
+        <h2>4. Configure Settings</h2>
+        <p>Open Settings (<code>File → Preferences → Settings</code>) and add:</p>
+        <pre><code>{
+  "editor.formatOnSave": true,
+  "files.autoSave": "afterDelay",
+  "python.pythonPath": "python3"
+}</code></pre>
+      </div>
+
+      <div class="step">
+        <h2>5. Verify Your Setup</h2>
+        <p>1. Open a new file, select “Python” as the language, type:</p>
+        <pre><code>print("Hello, VS Code!")</code></pre>
+        <p>2. Press <code>Ctrl+Alt+N</code> (with Code Runner) or run via the ▶️ Run button.</p>
+        <div id="studio-feedback"></div>
+      </div>
+    </section>
+
+    <footer>
+      <button id="studio-done" class="btn-primary">I’m all set!</button>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('studio-done').addEventListener('click', () => {
+      // redirect back to module 5 lesson 1 (adjust URL as needed)
+      window.location.href = '/lessonPage?moduleId=5&lessonId=1&displayName=<%=name%>';
+    });
+  </script>
+</body>
+</html>
