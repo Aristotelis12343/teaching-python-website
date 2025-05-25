@@ -138,6 +138,6 @@
   white-space: pre-wrap;
 }
 .option-text {
-  /* this makes every real newline render as a line-break */
+  
   white-space: pre-wrap;
 }
