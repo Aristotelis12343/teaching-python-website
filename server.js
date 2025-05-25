@@ -154,6 +154,10 @@ app.post("/delete-account",async(req,res)=>{
   res.redirect("/");
 });
 
+app.get("/logout",(req,res)=>{
+  res.redirect("/");
+});
+
 app.get("/",(req,res)=>{
     res.render("home.ejs");
 });
