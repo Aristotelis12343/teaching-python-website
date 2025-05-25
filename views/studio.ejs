@@ -70,8 +70,13 @@
 
   <script>
     document.getElementById('studio-done').addEventListener('click', () => {
-      // redirect back to module 5 lesson 1 (adjust URL as needed)
-      window.location.href = '/lessonPage?moduleId=5&lessonId=1&displayName=<%=name%>';
+      
+      window.location.href = window.location.href =
+                            '/lessonPage'
+                            + '?moduleId=5'
+                            + '&lessonId=1'
+                            + '&label=Object-oriented%20programming'
+                            + '&displayName=' + encodeURIComponent('<%= name %>');
     });
   </script>
 </body>
