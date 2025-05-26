@@ -82,7 +82,7 @@
             <% if (lesson.lesson_id === 1 && lesson.module_id === 5) { %>
               <a href="/virtual-studio/?name=<%=name%>"class="lesson-card__link">
                   <span class="lesson-card__badge">V</span>
-                  <p>DOWNLOAD VIRTUAL STUDIO CODE</p>
+                  <p>DOWNLOAD VISUAL STUDIO CODE</p>
                 </a>
             <%}else{%>
               <% exercises.filter(ex => ex.lesson_id === lesson.lesson_id && ex.module_id===lesson.module_id).forEach(exercise => { %>
