@@ -17,7 +17,7 @@
   gap: 1.5rem;
   padding: 1rem;
   background: var(--bg-light);
-  /* Full viewport height so sidebar and content match browser height */
+  
   height: 100vh;
 }
 
@@ -25,7 +25,7 @@
 .module-menu {
   display: flex;
   flex-direction: column;
-  /* Distribute module buttons evenly down full height */
+  
   justify-content: space-evenly;
   padding: 1rem;
   height: 100vh;
@@ -169,11 +169,11 @@
   align-items: center;
   margin: 1rem 0;
   padding: 1rem 2rem;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(8px);
+  background-color: rgba(142, 68, 173, 0.1);
   border-left: 6px solid var(--accent-primary);
   border-radius: .75rem;
   animation: slideInDown .6s ease-out;
+  border-bottom: 2px solid var(--accent-secondary);
 }
 .page-header:nth-of-type(even) {
   border-left-color: var(--accent-secondary);
@@ -183,6 +183,10 @@
   font: bold 1.8rem var(--font-mono);
   color: var(--accent-primary);
   text-transform: uppercase;
+
+  background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /*────────── User Greet & Actions ──────────*/
@@ -218,7 +222,7 @@
   color: var(--accent-secondary);
 }
 
-/* Cool User Name Styling */
+/*Name Styling */
 .user-greet .user-name {
   font-family: var(--font-mono);
   font-size: 2rem;
